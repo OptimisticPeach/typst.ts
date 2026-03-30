@@ -14,7 +14,7 @@ use typst::layout::{
 use typst::text::Font;
 use typst::utils::Scalar as TypstScalar;
 use typst::visualize::{ExchangeFormat, ImageFormat, ImageKind, RasterFormat, VectorFormat};
-use typst_svg::pdf_to_svg;
+// use typst_svg::pdf_to_svg;
 
 use crate::hash::typst_affinite_hash;
 use crate::{FromTypst, IntoTypst, TryFromTypst};
@@ -28,7 +28,8 @@ impl ImageExt for typst::visualize::Image {
         match self.kind() {
             typst::visualize::ImageKind::Raster(raster_image) => raster_image.data(),
             typst::visualize::ImageKind::Svg(svg_image) => svg_image.data(),
-            typst::visualize::ImageKind::Pdf(pdf_image) => pdf_image.document().data(),
+            // typst::visualize::ImageKind::Pdf(pdf_image) => pdf_image.document().data(),
+            typst::visualize::ImageKind::Pdf(_) => todo!(),
         }
     }
 }
@@ -229,7 +230,8 @@ fn encode_image(image: &typst::visualize::Image) -> (Fingerprint, Arc<[u8]>) {
             }
         },
         ImageKind::Svg(svg) => svg.data().as_slice().into(),
-        ImageKind::Pdf(pdf) => pdf_to_svg(pdf).as_bytes().into(),
+        // ImageKind::Pdf(pdf) => pdf_to_svg(pdf).as_bytes().into(),
+        ImageKind::Pdf(_) => todo!(),
     };
 
     (hash, data)
